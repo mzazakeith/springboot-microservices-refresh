@@ -30,6 +30,7 @@ public class OrderService {
                 .map(this::mapToDto)
                 .toList();
         order.setOrderLineItemsList(orderLineItems);
+//        inventory service check if in stock
         orderRepository.save(order);
         log.info("Order with order number {} is saved", order.getOrderNumber());
     }
