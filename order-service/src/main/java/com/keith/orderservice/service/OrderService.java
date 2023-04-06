@@ -25,7 +25,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
 
-    public void placeOrder(OrderRequest orderRequest){
+    public String placeOrder(OrderRequest orderRequest){
         Order order = new Order();
         order.setOrderNumber(UUID.randomUUID().toString());
         List<OrderLineItems> orderLineItems = orderRequest
@@ -47,11 +47,11 @@ public class OrderService {
 
         if(allProductsInStock){
             orderRepository.save(order);
+            log.info("Order with order number {} is saved", order.getOrderNumber());
+            return "Order Placed Successfully";
         }else{
             throw new IllegalArgumentException("There are products not in stock");
         }
-
-        log.info("Order with order number {} is saved", order.getOrderNumber());
     }
 
     private OrderLineItems mapToDto(OrderLineItemsDto orderLineItemsDto) {
